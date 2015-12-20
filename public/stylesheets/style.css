@@ -46,5 +46,5 @@ td {
   background-color: red;
   animation-name: example;
   animation-duration: 1s;
-  animation-iteration-count: 2;
+  animation-iteration-count: 1;
 }

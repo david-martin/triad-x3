@@ -9,6 +9,8 @@ var playerNumber = 1;
 var playerGo = 1;
 var goInProgress = false;
 var cardIds = []
+var player1score = 0;
+var player2score = 0;
 $('.card').on('click', function() {
   if (goInProgress) return;
   if (!$(this).hasClass('off')) return;
@@ -25,6 +27,23 @@ $('.card').on('click', function() {
   }
 });
 
+update();
+
+function update() {
+  $('#player').text(playerNumber);
+  $('#player1score').text(player1score);
+  $('#player2score').text(player2score);
+  if (!$('.card').length) {
+    if (player1score > player2score) {
+      alert('Player 1 wins')
+    } else if (player2score > player1score) {
+      alert('Player 2 wins');
+    } else {
+      alert('Draw');
+    }
+  }
+}
+
 function checkForMatch() {
   console.log('cardIds', cardIds);
   if ($('#' + cardIds[0]).prop('class') === $('#' + cardIds[1]).prop('class')) {
@@ -37,8 +56,15 @@ function checkForMatch() {
       console.log('removing match', cardIds[0]);
       $('#' + cardIds[0]).remove();
       $('#' + cardIds[1]).remove();
+      if (playerNumber === 1) {
+        player1score += 1;
+      } else {
+        player2score += 1;
+      }
+      update();
     } else {
       playerNumber = (playerNumber === 1 ? 2 : 1);
+      update();
     }
     playerGo = 1;
     goInProgress = false;
