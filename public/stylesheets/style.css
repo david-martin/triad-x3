@@ -15,8 +15,12 @@ td {
 
 .card {
   border: 1px solid #000;
-  background-color: #ff0;
+  background-color: #00f;
   width: 108px;
   height: 138px;
   margin: 5px;
+}
+
+.card.player2 {
+  background-color: #f00;
 }
