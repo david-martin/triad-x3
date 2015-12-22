@@ -1,7 +1,7 @@
-var grid = [4, 3];
+var grid = [6, 3];
 var totalCards = grid[0] * grid[1];
 var allCardNumbers = [];
-var cards = ['bicycle', 'euro', 'apple', 'android', 'twitter', 'pagelines', 'drupal', 'ambulance']
+var cards = ['bicycle', 'euro', 'apple', 'android', 'twitter', 'pagelines', 'drupal', 'ambulance', 'star-o'];
 for (var ti = 0, tl = totalCards/2; ti < tl; ti++) {
   var card = cards[ti];
   allCardNumbers = allCardNumbers.concat([card, card]);
@@ -65,13 +65,19 @@ $('.card').on('click', function() {
   }
 });
 
-// DEBUG
-// $('.card').removeClass('back').addClass('front');
-
 update();
 
 function update() {
   $('#player').text(playerNumber);
+  if (playerNumber === 1) {
+    $('body').css({
+      'background-color': 'white'
+    });
+  } else {
+    $('body').css({
+      'background-color': 'yellow'
+    });
+  }
   $('#player1score').text(player1score);
   $('#player2score').text(player2score);
   if (!$('.card').length) {

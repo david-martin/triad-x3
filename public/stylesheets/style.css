@@ -59,10 +59,38 @@ td {
   text-shadow: none;
 }
 .face.back i {
-  
+  text-shadow: 1px 1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000, -1px -1px 0px #000, 10px 10px 10px #fff, 10px -10px 10px #fff, -10px 10px 10px #fff, -10px -10px 10px #fff;
 }
 
-@keyframes flash {
+i.fa-bicycle {
+  color: #8A2BE2;
+}
+i.fa-euro {
+  color: yellow;
+}
+i.fa-apple {
+  color: #D3D3D3;
+}
+i.fa-android {
+  color: #ADFF2F;
+}
+i.fa-twitter {
+  color: #7FD9F7;
+}
+i.fa-pagelines {
+  color: #008000;
+}
+i.fa-drupal {
+  color: #6633FF;
+}
+i.fa-ambulance {
+  color: #ffffff;
+}
+i.fa-star-o {
+  color: #FFD700;
+}
+@
+keyframes flash {
   0%   {background-color: #fff;}
   25%  {background-color: #333;}
   50% {background-color: #fff;}
