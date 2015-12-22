@@ -3,38 +3,66 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-a {
-  color: #00B7FF;
+table {
+  z-index: 1;
+  perspective: 1000px;
 }
 
 td {
-  border: 1px solid #000;
   width:120px;
   height:150px;
 }
 
 .card {
-  border: 1px solid #000;
   width: 108px;
   height: 138px;
   margin: 5px;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  transition: all 0.25s linear;
+}
+.card.flip {
+  transform: rotateY(180deg);
 }
 
-.card.cardf00 {
-  background-color: #f00;
-}
-.card.card0f0 {
-  background-color: #0f0;
-}
-.card.card00f {
-  background-color: #00f;
-}
-
-.card.off {
-  background-color: #000 !important;
+.face {
+  border:1px solid #333;
+  border-radius: 10px;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transition: all 0.25s linear;
 }
 
-@keyframes example {
+.face.back {
+  display: block;
+  transform: rotateY(180deg);
+  box-sizing: border-box;
+  background-color: #eee;
+}
+
+.face.front {
+  background-color: #f66;  
+}
+
+.card i {
+  width: 100%;
+  height: 100%;
+  font-size: 5em;
+  line-height: 2em;
+  text-align: center;
+  text-shadow: 2px 2px 2px #fff, 2px -2px 2px #fff, -2px 2px 2px #fff, -2px -2px 2px #fff;
+}
+
+.face.front i {
+  color: #fdd;
+  text-shadow: none;
+}
+.face.back i {
+  
+}
+
+@keyframes flash {
   0%   {background-color: #fff;}
   25%  {background-color: #333;}
   50% {background-color: #fff;}
@@ -42,9 +70,8 @@ td {
   100% {background-color: #fff;}
 }
 
-.card.flash {
-  background-color: red;
-  animation-name: example;
-  animation-duration: 1s;
-  animation-iteration-count: 1;
+.card.flash .face {
+  animation-name: flash;
+  animation-duration: 0.75s;
+  animation-iteration-count: infinite;
 }

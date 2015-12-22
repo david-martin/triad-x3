@@ -1,9 +1,47 @@
-var cards = ['cardf00', 'cardf00', 'card0f0', 'card0f0', 'card00f', 'card00f'];
+var grid = [4, 3];
+var totalCards = grid[0] * grid[1];
+var allCardNumbers = [];
+var cards = ['bicycle', 'euro', 'apple', 'android', 'twitter', 'pagelines', 'drupal', 'ambulance']
+for (var ti = 0, tl = totalCards/2; ti < tl; ti++) {
+  var card = cards[ti];
+  allCardNumbers = allCardNumbers.concat([card, card]);
+}
 
-$('td').each(function(index) {
-  console.log('index', index);
-  $(this).html('<div id="' + makeid() + '" class="card ' + cards[index] + ' off"></div>');
-});
+allCardNumbers = shuffle(allCardNumbers);
+console.log('allCardNumbers', allCardNumbers);
+
+var $table = $('table');
+for (var ri = 0; ri < grid[1]; ri++) {
+  var row = $('<tr>');
+  for (var ci = 0; ci < grid[0]; ci++) {
+    var card = allCardNumbers.splice(0, 1);
+    // TODO template
+    var cell = $('<td>');
+    var cardDiv = $('<div>', {
+      'id': makeid(),
+      'class': 'card',
+      'data-card': card
+    });
+    cardDiv.append($('<div>', {
+      'class': 'front face'
+    }).html($('<i>', {
+      'class': 'fa fa-smile-o'
+    })));
+    cardDiv.append($('<div>', {
+      'class': 'back face'
+    }).html($('<i>', {
+      'class': 'fa fa-' + card
+    })));
+    cell.html(cardDiv);
+    row.append(cell);
+  }
+  $table.append(row);
+}
+
+function shuffle(o) {
+  for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+  return o;
+};
 
 var playerNumber = 1;
 var playerGo = 1;
@@ -13,11 +51,11 @@ var player1score = 0;
 var player2score = 0;
 $('.card').on('click', function() {
   if (goInProgress) return;
-  if (!$(this).hasClass('off')) return;
+  if ($(this).hasClass('flip')) return;
 
   goInProgress = true;
   console.log('goInProgress');
-  $(this).removeClass('off');
+  $(this).addClass('flip');
   cardIds[playerGo -1] = $(this).attr('id');
   if (playerGo === 2) {
     checkForMatch();
@@ -26,6 +64,9 @@ $('.card').on('click', function() {
     goInProgress = false;
   }
 });
+
+// DEBUG
+// $('.card').removeClass('back').addClass('front');
 
 update();
 
@@ -46,16 +87,16 @@ function update() {
 
 function checkForMatch() {
   console.log('cardIds', cardIds);
-  if ($('#' + cardIds[0]).prop('class') === $('#' + cardIds[1]).prop('class')) {
-    console.log('match flashing');
-    $('#' + cardIds[0]).addClass('flash');
-    $('#' + cardIds[1]).addClass('flash');
-  }
   setTimeout(function() {
-    if ($('#' + cardIds[0]).prop('class') === $('#' + cardIds[1]).prop('class')) {
+    if ($('#' + cardIds[0]).data('card') === $('#' + cardIds[1]).data('card')) {
+      console.log('match flashing');
+      $('#' + cardIds[0] + ',#' + cardIds[1]).addClass('flash');
+    }
+  }, 200);
+  setTimeout(function() {
+    if ($('#' + cardIds[0]).data('card') === $('#' + cardIds[1]).data('card')) {
       console.log('removing match', cardIds[0]);
-      $('#' + cardIds[0]).remove();
-      $('#' + cardIds[1]).remove();
+      $('#' + cardIds[0] + ',#' + cardIds[1]).remove();//.addClass('removing');
       if (playerNumber === 1) {
         player1score += 1;
       } else {
@@ -63,12 +104,12 @@ function checkForMatch() {
       }
       update();
     } else {
+      $('.card').removeClass('flip');
       playerNumber = (playerNumber === 1 ? 2 : 1);
       update();
     }
     playerGo = 1;
     goInProgress = false;
-    $('.card').addClass('off');
   }, 1000);
 }
 
