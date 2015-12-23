@@ -88,16 +88,29 @@ i.fa-fort-awesome {
 i.fa-anchor {
   color: #800080;
 }
-@keyframes flash {
-  0%   {background-color: #fff;}
-  25%  {background-color: #333;}
-  50% {background-color: #fff;}
-  75%  {background-color: #333;}
-  100% {background-color: #fff;}
+
+.values {
+  position: absolute;
+  color: #fff;
+  text-shadow: 1px 1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000, -1px -1px 0px #000;
+  top: 0.5em;
+  left: 0.5em;
 }
 
-.card.flash .face {
-  animation-name: flash;
-  animation-duration: 0.75s;
-  animation-iteration-count: infinite;
+.values-north {
+  float:left;
+  text-indent: 0.5em;
+}
+.values-west {
+  float:left;
+  clear:both;
+}
+.values-east {
+  float:right;
+  text-indent: 0.5em;
+}
+.values-south {
+  float:left;
+  clear:both;
+  text-indent: 0.5em;
 }

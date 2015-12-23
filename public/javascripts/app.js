@@ -4,7 +4,7 @@ var allCardNumbers = [];
 // var cards = ['bicycle', 'euro', 'apple', 'android', 'twitter', 'pagelines', 'drupal', 'ambulance', 'star-o'];
 var playerCards = [['bicycle', 'euro', 'apple', 'android', 'twitter'], ['fort-awesome', 'pagelines', 'drupal', 'ambulance', 'star-o']];
 
-var values = {
+var cardValues = {
   'bicycle': [1, 4, 1, 5],
   'euro': [5, 1, 1, 3],
   'apple': [1, 3, 3, 5],
@@ -100,16 +100,38 @@ function placeCard(cell) {
   } else {
 
   }
-  cardDiv.append($('<div>', {
+
+  var cardValue = cardValues[card];
+  var icon = $('<i>', {
+    'class': 'fa fa-' + card
+  });
+  var values = $('<div>', {
+    'class': 'values'
+  }).append($('<span>', {
+    'class': 'values-value values-north'
+  }).text(cardValue[0]))
+  .append($('<span>', {
+    'class': 'values-value values-west'
+  }).text(cardValue[3]))
+  .append($('<span>', {
+    'class': 'values-value values-east'
+  }).text(cardValue[1]))
+  .append($('<span>', {
+    'class': 'values-value values-south'
+  }).text(cardValue[2]));
+
+  var front = $('<div>', {
     'class': 'front face'
-  }).html($('<i>', {
-    'class': 'fa fa-' + card
-  })));
-  cardDiv.append($('<div>', {
+  }).append(values)
+  .append(icon)
+  .appendTo(cardDiv);
+
+  var back = $('<div>', {
     'class': 'back face'
-  }).html($('<i>', {
-    'class': 'fa fa-' + card
-  })));
+  }).append(values.clone())
+  .append(icon.clone())
+  .appendTo(cardDiv);
+
   cell.html(cardDiv);
 
   // TODO: what effect does card have?
