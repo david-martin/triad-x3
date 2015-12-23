@@ -1,14 +1,15 @@
 var grid = [3, 3];
 var totalCards = grid[0] * grid[1];
 var allCardNumbers = [];
-var cards = ['bicycle', 'euro', 'apple', 'android', 'twitter', 'pagelines', 'drupal', 'ambulance', 'star-o'];
-for (var ti = 0, tl = totalCards/2; ti < tl; ti++) {
-  var card = cards[ti];
-  allCardNumbers = allCardNumbers.concat([card, card]);
-}
+// var cards = ['bicycle', 'euro', 'apple', 'android', 'twitter', 'pagelines', 'drupal', 'ambulance', 'star-o'];
+var playerCards = [['bicycle', 'euro', 'apple', 'android', 'twitter'], ['twitter', 'pagelines', 'drupal', 'ambulance', 'star-o']];
+// for (var ti = 0, tl = totalCards/2; ti < tl; ti++) {
+//   var card = cards[ti];
+//   allCardNumbers = allCardNumbers.concat([card, card]);
+// }
 
-allCardNumbers = shuffle(allCardNumbers);
-console.log('allCardNumbers', allCardNumbers);
+// allCardNumbers = shuffle(allCardNumbers);
+// console.log('allCardNumbers', allCardNumbers);
 
 var $table = $('table');
 for (var ri = 0; ri < grid[1]; ri++) {
@@ -74,7 +75,7 @@ $('td').on('click', function() {
 });
 
 function placeCard(cell) {
-  var card = allCardNumbers.splice(0, 1);
+  var card = playerCards[playerNumber - 1].splice(0, 1);
   var cardDiv = $('<div>', {
     'id': makeid(),
     'class': 'card flip',
@@ -126,33 +127,33 @@ function update() {
   }
 }
 
-function checkForMatch() {
-  console.log('cardIds', cardIds);
-  setTimeout(function() {
-    if ($('#' + cardIds[0]).data('card') === $('#' + cardIds[1]).data('card')) {
-      console.log('match flashing');
-      $('#' + cardIds[0] + ',#' + cardIds[1]).addClass('flash');
-    }
-  }, 200);
-  setTimeout(function() {
-    if ($('#' + cardIds[0]).data('card') === $('#' + cardIds[1]).data('card')) {
-      console.log('removing match', cardIds[0]);
-      $('#' + cardIds[0] + ',#' + cardIds[1]).remove();//.addClass('removing');
-      if (playerNumber === 1) {
-        player1score += 1;
-      } else {
-        player2score += 1;
-      }
-      update();
-    } else {
-      $('.card').removeClass('flip');
-      playerNumber = (playerNumber === 1 ? 2 : 1);
-      update();
-    }
-    playerGo = 1;
-    goInProgress = false;
-  }, 1000);
-}
+// function checkForMatch() {
+//   console.log('cardIds', cardIds);
+//   setTimeout(function() {
+//     if ($('#' + cardIds[0]).data('card') === $('#' + cardIds[1]).data('card')) {
+//       console.log('match flashing');
+//       $('#' + cardIds[0] + ',#' + cardIds[1]).addClass('flash');
+//     }
+//   }, 200);
+//   setTimeout(function() {
+//     if ($('#' + cardIds[0]).data('card') === $('#' + cardIds[1]).data('card')) {
+//       console.log('removing match', cardIds[0]);
+//       $('#' + cardIds[0] + ',#' + cardIds[1]).remove();//.addClass('removing');
+//       if (playerNumber === 1) {
+//         player1score += 1;
+//       } else {
+//         player2score += 1;
+//       }
+//       update();
+//     } else {
+//       $('.card').removeClass('flip');
+//       playerNumber = (playerNumber === 1 ? 2 : 1);
+//       update();
+//     }
+//     playerGo = 1;
+//     goInProgress = false;
+//   }, 1000);
+// }
 
 function makeid()
 {
