@@ -59,7 +59,7 @@ i.fa-bicycle {
   color: #8A2BE2;
 }
 i.fa-euro {
-  color: yellow;
+  color: #FFFF00;
 }
 i.fa-apple {
   color: #D3D3D3;
@@ -82,8 +82,13 @@ i.fa-ambulance {
 i.fa-star-o {
   color: #FFD700;
 }
-@
-keyframes flash {
+i.fa-fort-awesome {
+  color: #F08080;
+}
+i.fa-anchor {
+  color: #800080;
+}
+@keyframes flash {
   0%   {background-color: #fff;}
   25%  {background-color: #333;}
   50% {background-color: #fff;}

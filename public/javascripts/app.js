@@ -2,7 +2,21 @@ var grid = [3, 3];
 var totalCards = grid[0] * grid[1];
 var allCardNumbers = [];
 // var cards = ['bicycle', 'euro', 'apple', 'android', 'twitter', 'pagelines', 'drupal', 'ambulance', 'star-o'];
-var playerCards = [['bicycle', 'euro', 'apple', 'android', 'twitter'], ['twitter', 'pagelines', 'drupal', 'ambulance', 'star-o']];
+var playerCards = [['bicycle', 'euro', 'apple', 'android', 'twitter'], ['fort-awesome', 'pagelines', 'drupal', 'ambulance', 'star-o']];
+
+var values = {
+  'bicycle': [1, 4, 1, 5],
+  'euro': [5, 1, 1, 3],
+  'apple': [1, 3, 3, 5],
+  'android': [6, 1, 1, 2],
+  'twitter': [2, 3, 1, 5],
+  'pagelines': [2, 1, 4, 4],
+  'drupal': [1, 5, 4, 1],
+  'ambulance': [3, 5, 2, 1],
+  'star-o' : [2, 1, 6, 1],
+  'fort-awesome': [4, 2, 4, 3],
+  'anchor': [2, 1, 2, 6]
+};
 // for (var ti = 0, tl = totalCards/2; ti < tl; ti++) {
 //   var card = cards[ti];
 //   allCardNumbers = allCardNumbers.concat([card, card]);
@@ -78,33 +92,24 @@ function placeCard(cell) {
   var card = playerCards[playerNumber - 1].splice(0, 1);
   var cardDiv = $('<div>', {
     'id': makeid(),
-    'class': 'card flip player' + playerNumber,
+    'class': 'card player' + playerNumber,
     'data-card': card
   });
   if (playerNumber === 1) {
-    // TODO: duplicate code
-    cardDiv.append($('<div>', {
-      'class': 'front face'
-    }).html($('<i>', {
-      'class': 'fa fa-' + card
-    })));
-    cardDiv.append($('<div>', {
-      'class': 'back face'
-    }).html($('<i>', {
-      'class': 'fa fa-' + card
-    })));
+    cardDiv.addClass('flip')
   } else {
-    cardDiv.append($('<div>', {
-      'class': 'back face'
-    }).html($('<i>', {
-      'class': 'fa fa-' + card
-    })));
-    cardDiv.append($('<div>', {
-      'class': 'front face'
-    }).html($('<i>', {
-      'class': 'fa fa-' + card
-    })));
+
   }
+  cardDiv.append($('<div>', {
+    'class': 'front face'
+  }).html($('<i>', {
+    'class': 'fa fa-' + card
+  })));
+  cardDiv.append($('<div>', {
+    'class': 'back face'
+  }).html($('<i>', {
+    'class': 'fa fa-' + card
+  })));
   cell.html(cardDiv);
 
   // TODO: what effect does card have?
@@ -126,6 +131,8 @@ function update() {
       'background-color': 'blue'
     });
   }
+  player1score = $('.card.flip').length;
+  player2score = $('.card:not(.flip)').length;
   $('#player1score').text(player1score);
   $('#player2score').text(player2score);
   // if (!$('.card').length) {
