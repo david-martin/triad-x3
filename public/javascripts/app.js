@@ -61,7 +61,7 @@ $('td').on('click', function() {
 
   goInProgress = true;
   console.log('goInProgress');
-  $(this).addClass('flip');
+  // $(this).addClass('flip');
   cardIds[playerGo -1] = $(this).attr('id');
   // TODO: goes per player
   // if (playerGo === 2) {
@@ -78,19 +78,33 @@ function placeCard(cell) {
   var card = playerCards[playerNumber - 1].splice(0, 1);
   var cardDiv = $('<div>', {
     'id': makeid(),
-    'class': 'card flip',
+    'class': 'card flip player' + playerNumber,
     'data-card': card
   });
-  cardDiv.append($('<div>', {
-    'class': 'front face'
-  }).html($('<i>', {
-    'class': 'fa fa-smile-o'
-  })));
-  cardDiv.append($('<div>', {
-    'class': 'back face'
-  }).html($('<i>', {
-    'class': 'fa fa-' + card
-  })));
+  if (playerNumber === 1) {
+    // TODO: duplicate code
+    cardDiv.append($('<div>', {
+      'class': 'front face'
+    }).html($('<i>', {
+      'class': 'fa fa-' + card
+    })));
+    cardDiv.append($('<div>', {
+      'class': 'back face'
+    }).html($('<i>', {
+      'class': 'fa fa-' + card
+    })));
+  } else {
+    cardDiv.append($('<div>', {
+      'class': 'back face'
+    }).html($('<i>', {
+      'class': 'fa fa-' + card
+    })));
+    cardDiv.append($('<div>', {
+      'class': 'front face'
+    }).html($('<i>', {
+      'class': 'fa fa-' + card
+    })));
+  }
   cell.html(cardDiv);
 
   // TODO: what effect does card have?

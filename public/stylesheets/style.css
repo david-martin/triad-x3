@@ -39,11 +39,11 @@ td {
   display: block;
   transform: rotateY(180deg);
   box-sizing: border-box;
-  background-color: #e2e2e2;
+  background-color: #faa;
 }
 
 .face.front {
-  background-color: #f66;  
+  background-color: #aaf;
 }
 
 .card i {
@@ -52,15 +52,7 @@ td {
   font-size: 5em;
   line-height: 2em;
   text-align: center;
-  text-shadow: 2px 2px 2px #fff, 2px -2px 2px #fff, -2px 2px 2px #fff, -2px -2px 2px #fff;
-}
-
-.face.front i {
-  color: #fdd;
-  text-shadow: none;
-}
-.face.back i {
-  text-shadow: 1px 1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000, -1px -1px 0px #000, 5px 5px 5px #fff, 5px -5px 5px #fff, -5px 5px 5px #fff, -5px -5px 5px #fff;
+  text-shadow: 1px 1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000, -1px -1px 0px #000;
 }
 
 i.fa-bicycle {
