@@ -1,3 +1,9 @@
+# Triad TODO
+
+https://bitbucket.org/david_martin_fh/triad-x3/issues?status=new&status=open
+
+# Matches TODO
+
 - [ ] Player names
 - [ ] Player colour selection
 - [ ] Success fade out & scale css

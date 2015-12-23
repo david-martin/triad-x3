@@ -1,4 +1,4 @@
-var grid = [6, 3];
+var grid = [3, 3];
 var totalCards = grid[0] * grid[1];
 var allCardNumbers = [];
 var cards = ['bicycle', 'euro', 'apple', 'android', 'twitter', 'pagelines', 'drupal', 'ambulance', 'star-o'];
@@ -14,25 +14,25 @@ var $table = $('table');
 for (var ri = 0; ri < grid[1]; ri++) {
   var row = $('<tr>');
   for (var ci = 0; ci < grid[0]; ci++) {
-    var card = allCardNumbers.splice(0, 1);
+    // var card = allCardNumbers.splice(0, 1);
     // TODO template
     var cell = $('<td>');
-    var cardDiv = $('<div>', {
-      'id': makeid(),
-      'class': 'card',
-      'data-card': card
-    });
-    cardDiv.append($('<div>', {
-      'class': 'front face'
-    }).html($('<i>', {
-      'class': 'fa fa-smile-o'
-    })));
-    cardDiv.append($('<div>', {
-      'class': 'back face'
-    }).html($('<i>', {
-      'class': 'fa fa-' + card
-    })));
-    cell.html(cardDiv);
+    // var cardDiv = $('<div>', {
+    //   'id': makeid(),
+    //   'class': 'card',
+    //   'data-card': card
+    // });
+    // cardDiv.append($('<div>', {
+    //   'class': 'front face'
+    // }).html($('<i>', {
+    //   'class': 'fa fa-smile-o'
+    // })));
+    // cardDiv.append($('<div>', {
+    //   'class': 'back face'
+    // }).html($('<i>', {
+    //   'class': 'fa fa-' + card
+    // })));
+    // cell.html(cardDiv);
     row.append(cell);
   }
   $table.append(row);
@@ -49,21 +49,54 @@ var goInProgress = false;
 var cardIds = []
 var player1score = 0;
 var player2score = 0;
-$('.card').on('click', function() {
+// $('.card').on('click', function() {
+// TODO: placing cards or flipping cards or removing cards
+$('td').on('click', function() {
   if (goInProgress) return;
-  if ($(this).hasClass('flip')) return;
+
+  // TODO: card already flipped, or card already in current place
+  // if ($(this).hasClass('flip')) return;
+  if ($(this).find('.card').length) return;
 
   goInProgress = true;
   console.log('goInProgress');
   $(this).addClass('flip');
   cardIds[playerGo -1] = $(this).attr('id');
-  if (playerGo === 2) {
-    checkForMatch();
-  } else {
-    playerGo = 2;
-    goInProgress = false;
-  }
+  // TODO: goes per player
+  // if (playerGo === 2) {
+    // checkForMatch();
+    // TODO: looking for match, or playing out a placement move
+    placeCard($(this))
+  // } else {
+  //   playerGo = 2;
+  //   goInProgress = false;
+  // }
 });
+
+function placeCard(cell) {
+  var card = allCardNumbers.splice(0, 1);
+  var cardDiv = $('<div>', {
+    'id': makeid(),
+    'class': 'card flip',
+    'data-card': card
+  });
+  cardDiv.append($('<div>', {
+    'class': 'front face'
+  }).html($('<i>', {
+    'class': 'fa fa-smile-o'
+  })));
+  cardDiv.append($('<div>', {
+    'class': 'back face'
+  }).html($('<i>', {
+    'class': 'fa fa-' + card
+  })));
+  cell.html(cardDiv);
+
+  // TODO: what effect does card have?
+  goInProgress = false;
+  playerNumber = (playerNumber === 1 ? 2 : 1);
+  update();
+}
 
 update();
 
@@ -80,7 +113,9 @@ function update() {
   }
   $('#player1score').text(player1score);
   $('#player2score').text(player2score);
-  if (!$('.card').length) {
+  // if (!$('.card').length) {
+  // TODO: end game  if all cards gone/used up???
+  if ($('.card').length === 9) {
     if (player1score > player2score) {
       alert('Player 1 wins')
     } else if (player2score > player1score) {
