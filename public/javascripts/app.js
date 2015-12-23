@@ -71,11 +71,11 @@ function update() {
   $('#player').text(playerNumber);
   if (playerNumber === 1) {
     $('body').css({
-      'background-color': 'white'
+      'background-color': 'red'
     });
   } else {
     $('body').css({
-      'background-color': 'yellow'
+      'background-color': 'blue'
     });
   }
   $('#player1score').text(player1score);

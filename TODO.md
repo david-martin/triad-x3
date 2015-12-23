@@ -1,0 +1,17 @@
+- [ ] Player names
+- [ ] Player colour selection
+- [ ] Success fade out & scale css
+- [ ] Player colour win message
+- [ ] Grid size selector
+- [ ] Ipad Safari support
+- [ ] keyboard support
+- [ ] Statistics report on finish
+- [ ] special cards e.g. flip all for 2 seconds, show all recently flipped
+- [ ] Add more cards
+- [ ] Allow custom card styles
+- [ ] Start new game when finished
+- [ ] Players 2-4
+- [ ] Time attack 1 player
+- [ ] Time attack high score
+- [ ] Remote multiplayer
+- [ ] Remember player on refresh
