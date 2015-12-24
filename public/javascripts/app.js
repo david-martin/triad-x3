@@ -135,6 +135,48 @@ function placeCard(cell) {
   cell.html(cardDiv);
 
   // TODO: what effect does card have?
+  var westCard = cell.closest('td').prev('td').find('.card');
+  var eastCard = cell.closest('td').next('td').find('.card');
+  console.log('west', westCard.length);
+  console.log('east', eastCard.length);
+  var column = cell.closest('td').prev('td').length ? (cell.closest('td').next('td').length ? 1 : 2) : 0;
+  var northCard = cell.closest('tr').prev('tr').find('td').eq(column).find('.card');
+  var southCard = cell.closest('tr').next('tr').find('td').eq(column).find('.card');
+  console.log('north', northCard.length);
+  console.log('south', southCard.length);
+
+  // TODO: dedupe
+  if (westCard && (parseInt(westCard.find('.values-east:eq(0)').text(), 10) < cardValue[3])) {
+    if (playerNumber === 1 && !westCard.hasClass('flip')) {
+      westCard.addClass('flip');
+    } else if (playerNumber === 2 && westCard.hasClass('flip')) {
+      westCard.removeClass('flip');
+    }
+  }
+  if (eastCard && (parseInt(eastCard.find('.values-west:eq(0)').text(), 10) < cardValue[1])) {
+    if (playerNumber === 1 && !eastCard.hasClass('flip')) {
+      eastCard.addClass('flip');
+    } else if (playerNumber === 2 && eastCard.hasClass('flip')) {
+      eastCard.removeClass('flip');
+    }
+  }
+  console.log('northCard', northCard);
+  console.log("parseInt(northCard.find('.values-south').text(), 10)", parseInt(northCard.find('.values-south:eq(0)').text(), 10));
+  console.log('cardValue[0]', cardValue[0]);
+  if (northCard && (parseInt(northCard.find('.values-south:eq(0)').text(), 10) < cardValue[0])) {
+    if (playerNumber === 1 && !northCard.hasClass('flip')) {
+      northCard.addClass('flip');
+    } else if (playerNumber === 2 && northCard.hasClass('flip')) {
+      northCard.removeClass('flip');
+    }
+  }
+  if (southCard && (parseInt(southCard.find('.values-north:eq(0)').text(), 10) < cardValue[2])) {
+    if (playerNumber === 1 && !southCard.hasClass('flip')) {
+      southCard.addClass('flip');
+    } else if (playerNumber === 2 && southCard.hasClass('flip')) {
+      southCard.removeClass('flip');
+    }
+  }
   goInProgress = false;
   playerNumber = (playerNumber === 1 ? 2 : 1);
   update();
