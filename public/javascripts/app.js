@@ -37,6 +37,15 @@ playerDecks[1].forEach(function(card) {
   $('#player2-deck').append(cardDiv);
 });
 
+$('.deck').on('click', '.card', function() {
+  var card = $(this);
+  var deck = card.closest('.deck');
+  if (deck.prop('id') === 'player' + playerNumber + '-deck') {
+    deck.find('.card').removeClass('selected');
+    card.addClass('selected');
+  }
+});
+
 function makeCardDiv(playerNumber, card) {
   var cardDiv = $('<div>', {
     'class': 'card player' + playerNumber,
@@ -81,11 +90,11 @@ function makeCardDiv(playerNumber, card) {
 }
 
 function placeCard(cell) {
-  var card = playerDecks[playerNumber - 1].splice(0, 1);
+  var deck = $('#player' + playerNumber + '-deck');
+  var card = deck.find('.card.selected').removeClass('selected').hide().data('card');
   var cardDiv = makeCardDiv(playerNumber, card);
 
   cell.html(cardDiv);
-  $('#player' + playerNumber + '-deck .card:visible:eq(0)').hide();
 
   // TODO: what effect does card have?
   var cardValue = cardValues[card];
@@ -132,14 +141,16 @@ function placeCard(cell) {
     }
   }
   goInProgress = false;
+
   playerNumber = (playerNumber === 1 ? 2 : 1);
+  $('#player' + playerNumber + '-deck .card:visible:eq(0)').addClass('selected');
   update();
 }
 
+$('#player' + playerNumber + '-deck .card:visible:eq(0)').addClass('selected');
 update();
 
 function update() {
-  $('#player' + playerNumber + '-deck .card:visible:eq(0)').addClass('selected');
   $('#player').text(playerNumber);
   if (playerNumber === 1) {
     $('body').css({

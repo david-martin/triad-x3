@@ -41,6 +41,7 @@ td {
 }
 .card.flip {
   transform: rotateY(180deg);
+  backface-visibility: visible;
 }
 
 .face {
