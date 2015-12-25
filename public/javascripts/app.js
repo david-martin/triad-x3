@@ -2,7 +2,7 @@ var playerNumber = 1;
 var goInProgress = false;
 var player1score = 0;
 var player2score = 0;
-var playerCards = [['bicycle', 'euro', 'apple', 'android', 'twitter'], ['fort-awesome', 'pagelines', 'drupal', 'ambulance', 'star-o']];
+var playerDecks = [['bicycle', 'euro', 'apple', 'android', 'twitter'], ['fort-awesome', 'pagelines', 'drupal', 'ambulance', 'star-o']];
 
 var cardValues = {
   'bicycle': [1, 4, 1, 5],
@@ -27,8 +27,17 @@ $('td').on('click', function() {
   placeCard($(this))
 });
 
-function placeCard(cell) {
-  var card = playerCards[playerNumber - 1].splice(0, 1);
+playerDecks[0].forEach(function(card) {
+  var cardDiv = makeCardDiv(1, card)
+  $('#player1-deck').append(cardDiv);
+});
+
+playerDecks[1].forEach(function(card) {
+  var cardDiv = makeCardDiv(2, card)
+  $('#player2-deck').append(cardDiv);
+});
+
+function makeCardDiv(playerNumber, card) {
   var cardDiv = $('<div>', {
     'class': 'card player' + playerNumber,
     'data-card': card
@@ -68,9 +77,18 @@ function placeCard(cell) {
   .append(icon.clone())
   .appendTo(cardDiv);
 
+  return cardDiv;
+}
+
+function placeCard(cell) {
+  var card = playerDecks[playerNumber - 1].splice(0, 1);
+  var cardDiv = makeCardDiv(playerNumber, card);
+
   cell.html(cardDiv);
+  $('#player' + playerNumber + '-deck .card:visible:eq(0)').hide();
 
   // TODO: what effect does card have?
+  var cardValue = cardValues[card];
   var westCard = cell.closest('td').prev('td').find('.card');
   var eastCard = cell.closest('td').next('td').find('.card');
   console.log('west', westCard.length);
@@ -121,6 +139,7 @@ function placeCard(cell) {
 update();
 
 function update() {
+  $('#player' + playerNumber + '-deck .card:visible:eq(0)').addClass('selected');
   $('#player').text(playerNumber);
   if (playerNumber === 1) {
     $('body').css({
@@ -131,11 +150,11 @@ function update() {
       'background-color': 'blue'
     });
   }
-  player1score = $('.card.flip').length;
-  player2score = $('.card:not(.flip)').length;
+  player1score = $('#board .card.flip').length;
+  player2score = $('#board .card:not(.flip)').length;
   $('#player1score').text(player1score);
   $('#player2score').text(player2score);
-  if ($('.card').length === 9) {
+  if ($('#board .card').length === 9) {
     if (player1score > player2score) {
       alert('Player 1 wins')
     } else if (player2score > player1score) {

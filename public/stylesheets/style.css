@@ -3,6 +3,15 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
+#board, .deck {
+  float:left;
+}
+
+.deck {
+  margin-top: 60px;
+  width: 120px
+}
+
 table {
   z-index: 1;
   perspective: 1000px;
@@ -21,6 +30,14 @@ td {
   backface-visibility: hidden;
   transform-style: preserve-3d;
   transition: all 0.25s linear;
+}
+.deck .card {
+  margin-top:-60px;
+}
+.deck .card.selected {
+  position:relative;
+  top:-60px;
+  left:5px;
 }
 .card.flip {
   transform: rotateY(180deg);
