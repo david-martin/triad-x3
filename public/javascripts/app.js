@@ -2,8 +2,10 @@ var playerNumber = 1;
 var goInProgress = false;
 var player1score = 0;
 var player2score = 0;
-var playerDecks = [['bicycle', 'euro', 'apple', 'android', 'twitter'], ['fort-awesome', 'pagelines', 'drupal', 'ambulance', 'star-o']];
 
+// TODO: store decks server-side based on browser session details
+var playerDecks = [['bicycle', 'euro', 'apple', 'android', 'twitter'], ['fort-awesome', 'pagelines', 'drupal', 'ambulance', 'star-o']];
+// TODO: store card definitions in json file server-side, only dealing with card id's when making requests to/from server
 var cardValues = {
   'bicycle': [1, 4, 1, 5],
   'euro': [5, 1, 1, 3],
@@ -23,15 +25,14 @@ $('td').on('click', function() {
   if ($(this).find('.card').length) return;
 
   goInProgress = true;
-  console.log('goInProgress');
   placeCard($(this))
 });
 
+// TODO: dedupe
 playerDecks[0].forEach(function(card) {
   var cardDiv = makeCardDiv(1, card)
   $('#player1-deck').append(cardDiv);
 });
-
 playerDecks[1].forEach(function(card) {
   var cardDiv = makeCardDiv(2, card)
   $('#player2-deck').append(cardDiv);
@@ -49,13 +50,11 @@ $('.deck').on('click', '.card', function() {
 });
 
 function makeCardDiv(playerNumber, card) {
+  // TODO: templating
   var cardDiv = $('<div>', {
     'class': 'card player' + playerNumber,
     'data-card': card
   });
-  // if (playerNumber === 1) {
-  //   cardDiv.addClass('flip')
-  // }
 
   var cardValue = cardValues[card];
   var icon = $('<i>', {
@@ -108,28 +107,20 @@ function placeCard(cell) {
 
   cell.html(cardDiv);
 
-  // TODO: what effect does card have?
   var cardValue = cardValues[card];
   var westCard = cell.closest('td').prev('td').find('.card');
   var eastCard = cell.closest('td').next('td').find('.card');
-  console.log('west', westCard.length);
-  console.log('east', eastCard.length);
   var column = cell.closest('td').prev('td').length ? (cell.closest('td').next('td').length ? 1 : 2) : 0;
   var northCard = cell.closest('tr').prev('tr').find('td').eq(column).find('.card');
   var southCard = cell.closest('tr').next('tr').find('td').eq(column).find('.card');
-  console.log('north', northCard.length);
-  console.log('south', southCard.length);
 
-  // TODO: dedupe
+  // TODO: get card values from card definitions based on card id's
   if (westCard && (parseInt(westCard.find('.values-east:eq(0)').text(), 10) < cardValue[3])) {
     checkCardCapture(playerNumber, westCard);
   }
   if (eastCard && (parseInt(eastCard.find('.values-west:eq(0)').text(), 10) < cardValue[1])) {
     checkCardCapture(playerNumber, eastCard);
   }
-  console.log('northCard', northCard);
-  console.log("parseInt(northCard.find('.values-south').text(), 10)", parseInt(northCard.find('.values-south:eq(0)').text(), 10));
-  console.log('cardValue[0]', cardValue[0]);
   if (northCard && (parseInt(northCard.find('.values-south:eq(0)').text(), 10) < cardValue[0])) {
     checkCardCapture(playerNumber, northCard);
   }
@@ -144,9 +135,6 @@ function placeCard(cell) {
   nextPlayerDeck.find('.card:not(.used):eq(0)').addClass('selected');
   update();
 }
-
-$('#player' + playerNumber + '-deck').addClass('active').find('.card:not(.used):eq(0)').addClass('selected');
-update();
 
 function update() {
   player1score = $('.card.player1:not(.used)').length;
@@ -163,3 +151,8 @@ function update() {
     }
   }
 }
+
+
+// Start game
+$('#player' + playerNumber + '-deck').addClass('active').find('.card:not(.used):eq(0)').addClass('selected');
+update();
