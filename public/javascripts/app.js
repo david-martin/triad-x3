@@ -51,9 +51,9 @@ function makeCardDiv(playerNumber, card) {
     'class': 'card player' + playerNumber,
     'data-card': card
   });
-  if (playerNumber === 1) {
-    cardDiv.addClass('flip')
-  }
+  // if (playerNumber === 1) {
+  //   cardDiv.addClass('flip')
+  // }
 
   var cardValue = cardValues[card];
   var icon = $('<i>', {
@@ -74,19 +74,28 @@ function makeCardDiv(playerNumber, card) {
     'class': 'values-value values-south'
   }).text(cardValue[2]));
 
-  var front = $('<div>', {
-    'class': 'front face'
-  }).append(values)
-  .append(icon)
-  .appendTo(cardDiv);
-
   var back = $('<div>', {
     'class': 'back face'
+  }).append($('<i>', {
+    'class': 'fa fa-smile-o'
+  }))
+  .appendTo(cardDiv);
+
+  var front = $('<div>', {
+    'class': 'front face'
   }).append(values.clone())
   .append(icon.clone())
   .appendTo(cardDiv);
 
   return cardDiv;
+}
+
+function checkCardCapture(player, card) {
+  if (player === 1 && card.hasClass('player2')) {
+    card.removeClass('player2').addClass('player1');
+  } else if (player === 2 && card.hasClass('player1')) {
+    card.removeClass('player1').addClass('player2');
+  }
 }
 
 function placeCard(cell) {
@@ -110,35 +119,19 @@ function placeCard(cell) {
 
   // TODO: dedupe
   if (westCard && (parseInt(westCard.find('.values-east:eq(0)').text(), 10) < cardValue[3])) {
-    if (playerNumber === 1 && !westCard.hasClass('flip')) {
-      westCard.addClass('flip');
-    } else if (playerNumber === 2 && westCard.hasClass('flip')) {
-      westCard.removeClass('flip');
-    }
+    checkCardCapture(playerNumber, westCard);
   }
   if (eastCard && (parseInt(eastCard.find('.values-west:eq(0)').text(), 10) < cardValue[1])) {
-    if (playerNumber === 1 && !eastCard.hasClass('flip')) {
-      eastCard.addClass('flip');
-    } else if (playerNumber === 2 && eastCard.hasClass('flip')) {
-      eastCard.removeClass('flip');
-    }
+    checkCardCapture(playerNumber, eastCard);
   }
   console.log('northCard', northCard);
   console.log("parseInt(northCard.find('.values-south').text(), 10)", parseInt(northCard.find('.values-south:eq(0)').text(), 10));
   console.log('cardValue[0]', cardValue[0]);
   if (northCard && (parseInt(northCard.find('.values-south:eq(0)').text(), 10) < cardValue[0])) {
-    if (playerNumber === 1 && !northCard.hasClass('flip')) {
-      northCard.addClass('flip');
-    } else if (playerNumber === 2 && northCard.hasClass('flip')) {
-      northCard.removeClass('flip');
-    }
+    checkCardCapture(playerNumber, northCard);
   }
   if (southCard && (parseInt(southCard.find('.values-north:eq(0)').text(), 10) < cardValue[2])) {
-    if (playerNumber === 1 && !southCard.hasClass('flip')) {
-      southCard.addClass('flip');
-    } else if (playerNumber === 2 && southCard.hasClass('flip')) {
-      southCard.removeClass('flip');
-    }
+    checkCardCapture(playerNumber, southCard);
   }
   goInProgress = false;
 
@@ -161,8 +154,8 @@ function update() {
       'background-color': 'blue'
     });
   }
-  player1score = $('#board .card.flip').length;
-  player2score = $('#board .card:not(.flip)').length;
+  player1score = $('.card.player1:visible').length;
+  player2score = $('.card.player2:visible').length;
   $('#player1score').text(player1score);
   $('#player2score').text(player2score);
   if ($('#board .card').length === 9) {

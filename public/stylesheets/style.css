@@ -27,9 +27,9 @@ td {
   width: 108px;
   height: 138px;
   margin: 5px;
-  backface-visibility: hidden;
   transform-style: preserve-3d;
-  transition: all 0.25s linear;
+  /*transition: all 1s linear;
+  animation-iteration-count: 2;*/
 }
 .deck .card {
   margin-top:-60px;
@@ -39,9 +39,18 @@ td {
   top:-60px;
   left:5px;
 }
+
+@keyframes flipper {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(360deg);
+  }
+}
 .card.flip {
-  transform: rotateY(180deg);
-  backface-visibility: visible;
+  /*transform: rotateY(180deg);*/
+  animation: flipper 1s 1;
 }
 
 .face {
@@ -50,17 +59,28 @@ td {
   position: absolute;
   width: 100%;
   height: 100%;
-  transition: all 0.25s linear;
+  backface-visibility: hidden;
+}
+
+.face.front {
+  z-index: 0
 }
 
 .face.back {
   display: block;
-  transform: rotateY(180deg);
+/*  transition: all 1s linear;
+  transform: rotateY(180deg);*/
   box-sizing: border-box;
+  background-color: #ff0;
+  backface-visibility:hidden;
+}
+.card.flip .face.back {
+  animation: flipper 1s 1;
+}
+.card.player1 .face.front {
   background-color: #faa;
 }
-
-.face.front {
+.card.player2 .face.front {
   background-color: #aaf;
 }
 
@@ -73,6 +93,10 @@ td {
   text-shadow: 1px 1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000, -1px -1px 0px #000;
 }
 
+i.fa-smile-o {
+  color: #fff;
+  text-shadow: none;
+}
 i.fa-bicycle {
   color: #8A2BE2;
 }
