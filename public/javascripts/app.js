@@ -39,6 +39,8 @@ playerDecks[1].forEach(function(card) {
 
 $('.deck').on('click', '.card', function() {
   var card = $(this);
+  if (card.is('.selected')) return;
+
   var deck = card.closest('.deck');
   if (deck.prop('id') === 'player' + playerNumber + '-deck') {
     deck.find('.card').removeClass('selected');
@@ -100,7 +102,8 @@ function checkCardCapture(player, card) {
 
 function placeCard(cell) {
   var deck = $('#player' + playerNumber + '-deck');
-  var card = deck.find('.card.selected').removeClass('selected').hide().data('card');
+  deck.removeClass('active');
+  var card = deck.find('.card.selected').removeClass('selected').addClass('used').data('card');
   var cardDiv = makeCardDiv(playerNumber, card);
 
   cell.html(cardDiv);
@@ -136,26 +139,18 @@ function placeCard(cell) {
   goInProgress = false;
 
   playerNumber = (playerNumber === 1 ? 2 : 1);
-  $('#player' + playerNumber + '-deck .card:visible:eq(0)').addClass('selected');
+  var nextPlayerDeck = $('#player' + playerNumber + '-deck');
+  nextPlayerDeck.addClass('active');
+  nextPlayerDeck.find('.card:not(.used):eq(0)').addClass('selected');
   update();
 }
 
-$('#player' + playerNumber + '-deck .card:visible:eq(0)').addClass('selected');
+$('#player' + playerNumber + '-deck').addClass('active').find('.card:not(.used):eq(0)').addClass('selected');
 update();
 
 function update() {
-  // $('#player').text(playerNumber);
-  // if (playerNumber === 1) {
-  //   $('body').css({
-  //     'background-color': 'red'
-  //   });
-  // } else {
-  //   $('body').css({
-  //     'background-color': 'blue'
-  //   });
-  // }
-  player1score = $('.card.player1:visible').length;
-  player2score = $('.card.player2:visible').length;
+  player1score = $('.card.player1:not(.used)').length;
+  player2score = $('.card.player2:not(.used)').length;
   $('#player1score').text(player1score);
   $('#player2score').text(player2score);
   if ($('#board .card').length === 9) {
