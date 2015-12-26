@@ -5,15 +5,18 @@ body {
 
 #board, .deck {
   float:left;
+  position: relative;
 }
-
+#board {
+  z-index: 1;
+}
 .deck {
   margin-top: 60px;
-  width: 120px
+  width: 120px;
+  z-index: 2;
 }
 
 table {
-  z-index: 1;
   perspective: 1000px;
 }
 
@@ -33,11 +36,13 @@ td {
 }
 .deck .card {
   margin-top:-60px;
-}
-.deck .card.selected {
   position:relative;
-  top:-60px;
-  left:5px;
+}
+#player1-deck .card.selected {
+  left:10px;
+}
+#player2-deck .card.selected {
+  right:10px;
 }
 
 @keyframes flipper {
