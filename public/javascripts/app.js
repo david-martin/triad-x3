@@ -144,16 +144,16 @@ $('#player' + playerNumber + '-deck .card:visible:eq(0)').addClass('selected');
 update();
 
 function update() {
-  $('#player').text(playerNumber);
-  if (playerNumber === 1) {
-    $('body').css({
-      'background-color': 'red'
-    });
-  } else {
-    $('body').css({
-      'background-color': 'blue'
-    });
-  }
+  // $('#player').text(playerNumber);
+  // if (playerNumber === 1) {
+  //   $('body').css({
+  //     'background-color': 'red'
+  //   });
+  // } else {
+  //   $('body').css({
+  //     'background-color': 'blue'
+  //   });
+  // }
   player1score = $('.card.player1:visible').length;
   player2score = $('.card.player2:visible').length;
   $('#player1score').text(player1score);

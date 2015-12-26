@@ -31,8 +31,6 @@ td {
   height: 138px;
   margin: 5px;
   transform-style: preserve-3d;
-  /*transition: all 1s linear;
-  animation-iteration-count: 2;*/
 }
 .deck .card {
   margin-top:-60px;
@@ -73,8 +71,6 @@ td {
 
 .face.back {
   display: block;
-/*  transition: all 1s linear;
-  transform: rotateY(180deg);*/
   box-sizing: border-box;
   background-color: #ff0;
   backface-visibility:hidden;
