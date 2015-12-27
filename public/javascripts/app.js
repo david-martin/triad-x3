@@ -53,7 +53,8 @@ function makeCardDiv(playerNumber, card) {
   // TODO: templating
   var cardDiv = $('<div>', {
     'class': 'card player' + playerNumber,
-    'data-card': card
+    'data-card': card,
+    'data-player': playerNumber
   });
 
   var cardValue = cardValues[card];
@@ -91,14 +92,6 @@ function makeCardDiv(playerNumber, card) {
   return cardDiv;
 }
 
-function checkCardCapture(player, card) {
-  if (player === 1 && card.hasClass('player2')) {
-    card.removeClass('player2').addClass('player1');
-  } else if (player === 2 && card.hasClass('player1')) {
-    card.removeClass('player1').addClass('player2');
-  }
-}
-
 function placeCard(cell) {
   var deck = $('#player' + playerNumber + '-deck');
   deck.removeClass('active');
@@ -114,19 +107,26 @@ function placeCard(cell) {
   var northCard = cell.closest('tr').prev('tr').find('td').eq(column).find('.card');
   var southCard = cell.closest('tr').next('tr').find('td').eq(column).find('.card');
 
-  // TODO: get card values from card definitions based on card id's
-  if (westCard && (parseInt(westCard.find('.values-east:eq(0)').text(), 10) < cardValue[3])) {
-    checkCardCapture(playerNumber, westCard);
-  }
-  if (eastCard && (parseInt(eastCard.find('.values-west:eq(0)').text(), 10) < cardValue[1])) {
-    checkCardCapture(playerNumber, eastCard);
-  }
-  if (northCard && (parseInt(northCard.find('.values-south:eq(0)').text(), 10) < cardValue[0])) {
-    checkCardCapture(playerNumber, northCard);
-  }
-  if (southCard && (parseInt(southCard.find('.values-north:eq(0)').text(), 10) < cardValue[2])) {
-    checkCardCapture(playerNumber, southCard);
-  }
+  [[westCard, 1, 3], [eastCard, 3, 1], [northCard, 2, 0], [southCard, 0, 2]].forEach(function(cardArr) {
+    var adjacentCard = cardArr[0];
+    var adjacentValue = cardArr[1];
+    var thisCardValue = cardArr[2];
+    console.log("adjacentValue", adjacentValue);
+    console.log('thisCardValue', thisCardValue);
+    if (adjacentCard.length) {
+      console.log("parseInt(adjacentCard.attr('data-player')", parseInt(adjacentCard.attr('data-player')));
+      console.log('playerNumber', playerNumber);
+      console.log("adjacentCard.data('card')", adjacentCard.data('card'));
+      console.log("cardValues[adjacentCard.data('card')][adjacentValue]", cardValues[adjacentCard.data('card')][adjacentValue]);
+      if ((parseInt(adjacentCard.attr('data-player')) !== playerNumber) && (cardValues[adjacentCard.data('card')][adjacentValue] < cardValue[thisCardValue])) {
+        if (playerNumber === 1) {
+          adjacentCard.removeClass('player2').addClass('player1').attr('data-player', '1');
+        } else {
+          adjacentCard.removeClass('player1').addClass('player2').attr('data-player', '2');
+        }
+      }
+    }
+  });
   goInProgress = false;
 
   playerNumber = (playerNumber === 1 ? 2 : 1);
