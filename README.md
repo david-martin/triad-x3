@@ -1,3 +1,11 @@
+# Triad x3
+
+Poor-mans version of Triple Triad from FF VIII.
+http://finalfantasy.wikia.com/wiki/Triple_Triad
+
+![Screenshot](screenshot.png)
+
+
 # Triad TODO
 
 https://bitbucket.org/david_martin_fh/triad-x3/issues?status=new&status=open
